@@ -1,0 +1,9 @@
+<%= simple_form_for Flight.new, url: root_path, method: :get do |f| %>
+  <div style="display: flex;">
+    <%= f.input :departure_airport, collection: @airports, label_method: :code, value_method: :id %>
+    <%= f.input :arrival_airport, collection: @airports, label_method: :code, value_method: :id %>
+    <%# f.input :number_of_passengers, collection: 1..4 %>
+    <%= f.input :departure_date, collection: @departure_dates %>
+  </div>
+  <%= f.button :submit, "Search" %>
+<% end %>
