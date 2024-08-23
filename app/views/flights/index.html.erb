@@ -9,3 +9,19 @@
     <%= f.submit "Search" %>
   </div>
 <% end %>
+
+<% if params[:departure_airport] || params[:arrival_airport] %>
+  <div>Search results:</div>
+
+  <% unless @flights.empty? %>
+    <% @flights.each do |flight| %>
+        <div style="margin: 15px; border: 1px solid black">
+          <div>Departure airport: <%= flight.departure_airport.code %></div>
+          <div>Arrival airport: <%= flight.arrival_airport.code %></div>
+          <div>Departure date: <%= flight.departure_date %></div>
+        </div>
+    <% end %>
+  <% else %>
+    <div>No flights were found.</div>
+  <% end %>
+<% end %>
