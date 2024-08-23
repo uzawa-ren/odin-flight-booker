@@ -16,9 +16,8 @@ class FlightsController < ApplicationController
     Flight.select(:departure_date)
           .distinct
           .order(:departure_date)
-          .map { |f| [f.departure_date.strftime("%m/%d/%Y"),
-                      f.departure_date] }
-          .uniq{ |dates_array| dates_array.first }
+          .map { |f| f.departure_date }
+        # .uniq #{ |dates_array| dates_array.first }
           .unshift(" ")
   end
 
@@ -26,6 +25,7 @@ class FlightsController < ApplicationController
     flights = Flight.all
     flights = flights.where(departure_airport: departure_airport) if departure_airport.present?
     flights = flights.where(arrival_airport: arrival_airport) if arrival_airport.present?
+    flights = flights.where(departure_date: departure_date) if departure_date.present?
     flights
   end
 end

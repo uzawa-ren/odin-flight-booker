@@ -1,11 +1,11 @@
 <%= form_with url: root_path, method: :get do |f| %>
   <div style="display: flex;">
     <%= f.label :departure_airport, "Departure airport:" %>
-    <%= select_tag(:departure_airport, options_for_select(@airports)) %>
+    <%= select_tag(:departure_airport, options_for_select(@airports, selected: params[:departure_airport])) %>
     <%= f.label :arrival_airport, "Arrival airport:" %>
-    <%= select_tag(:arrival_airport, options_for_select(@airports)) %>
+    <%= select_tag(:arrival_airport, options_for_select(@airports, selected: params[:arrival_airport])) %>
     <%= f.label :departure_date, "Departure date:" %>
-    <%= select_tag(:departure_date, options_for_select(@departure_dates)) %>
+    <%= select_tag(:departure_date, options_for_select(@departure_dates, selected: params[:departure_date])) %>
     <%= f.submit "Search" %>
   </div>
 <% end %>
@@ -19,6 +19,7 @@
           <div>Departure airport: <%= flight.departure_airport.code %></div>
           <div>Arrival airport: <%= flight.arrival_airport.code %></div>
           <div>Departure date: <%= flight.departure_date %></div>
+          <div>Departure time: <%= flight.departure_time %></div>
         </div>
     <% end %>
   <% else %>
