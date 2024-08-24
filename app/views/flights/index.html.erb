@@ -1,13 +1,21 @@
 <%= form_with url: root_path, method: :get do |f| %>
-  <div style="display: flex;">
-    <%= f.label :departure_airport, "Departure airport:" %>
-    <%= select_tag(:departure_airport, options_for_select(@airports, selected: params[:departure_airport])) %>
-    <%= f.label :arrival_airport, "Arrival airport:" %>
-    <%= select_tag(:arrival_airport, options_for_select(@airports, selected: params[:arrival_airport])) %>
-    <%= f.label :number_of_passengers, "Number of passengers:" %>
-    <%= select_tag(:number_of_passengers, options_for_select(1..4, selected: params[:number_of_passengers])) %>
-    <%= f.label :departure_date, "Departure date:" %>
-    <%= select_tag(:departure_date, options_for_select(@departure_dates, selected: params[:departure_date])) %>
+  <div style="display: flex; gap: 20px; align-items: center">
+    <div>
+      <%= f.label :departure_airport, "Departure airport:" %>
+      <%= select_tag(:departure_airport, options_for_select(@airports, selected: params[:departure_airport])) %>
+    </div>
+    <div>
+      <%= f.label :arrival_airport, "Arrival airport:" %>
+      <%= select_tag(:arrival_airport, options_for_select(@airports, selected: params[:arrival_airport])) %>
+    </div>
+    <div>
+      <%= f.label :number_of_passengers, "Number of passengers:" %>
+      <%= select_tag(:number_of_passengers, options_for_select(1..4, selected: params[:number_of_passengers])) %>
+    </div>
+    <div>
+      <%= f.label :departure_date, "Departure date:" %>
+      <%= select_tag(:departure_date, options_for_select(@departure_dates, selected: params[:departure_date])) %>
+    </div>
     <%= f.submit "Search" %>
   </div>
 <% end %>
@@ -16,14 +24,21 @@
   <div>Search results:</div>
 
   <% unless @flights.empty? %>
-
-    <% @flights.each do |flight| %>
-      <div style="margin: 15px; border: 1px solid black">
-        <div>Departure airport: <%= flight.departure_airport.code %></div>
-        <div>Arrival airport: <%= flight.arrival_airport.code %></div>
-        <div>Departure date: <%= flight.departure_date %></div>
-        <div>Departure time: <%= flight.departure_time %></div>
-      </div>
+  
+    <%= form_with url: root_path, method: :get do |f| %>
+      <% @flights.each do |flight| %>
+        <div style="display: flex; gap: 20px; margin: 15px; border: 1px solid black; padding: 10px; border-radius: 3px">
+          <%= radio_button_tag("choosen_flight", flight.id) %>
+          <label for="choosen_flight_<%= flight.id %>">
+            <div>Departure airport: <%= flight.departure_airport.code %></div>
+            <div>Arrival airport: <%= flight.arrival_airport.code %></div>
+            <div>Departure date: <%= flight.departure_date %></div>
+            <div>Departure time: <%= flight.departure_time %></div>
+          </label>
+        </div>
+      <% end %>
+      <%= f.hidden_field :number_of_passengers, value: params[:number_of_passengers] %>
+      <%= f.submit "Book choosen flight" %>
     <% end %>
 
   <% else %>
