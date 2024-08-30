@@ -1,23 +1,18 @@
-<%= form_with model: @booking do |f| %>
+<h1>Complete booking</h1>
+<%= simple_form_for @booking do |f| %>
   <div><%= @flight.departure_airport.code %> ------------> <%= @flight.arrival_airport.code %></div>
   <div>On <%= @flight.departure_date %> at <%= @flight.departure_time %></div>
   <div>Flight id: <%= @flight.id %></div>
   <br>
-  <%= f.hidden_field :flight_id, value: @flight.id %>
+  <%= f.input :flight_id, as: :hidden, input_html: { value: @flight.id } %>
 
   <div>Passengers:</div>
-  <ol>
-    <%= f.fields_for :passengers do |passengers_form| %>
-      <li>
-        <%= passengers_form.label :name %>
-        <%= passengers_form.text_field :name %>
-        <br>
-        <%= passengers_form.label :email %>
-        <%= passengers_form.email_field :email %>
-      </li>
-      <br>
-    <% end %>
-  </ol>
-
-  <%= f.submit "Book flight" %>
+  <br>
+  <%= f.simple_fields_for :passengers do |passengers_form| %>
+    <%= passengers_form.input :name %>
+    <br>
+    <%= passengers_form.input :email %>
+  <% end %>
+  <br>
+  <%= f.button :submit, "Book flight" %>
 <% end %>

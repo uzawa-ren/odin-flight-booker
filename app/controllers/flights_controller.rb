@@ -9,7 +9,7 @@ class FlightsController < ApplicationController
   private
 
   def airports_formatted_collection
-    Airport.all.map { |a| [a.code, a.id] }.unshift(" ")
+    Airport.all.map { |a| [a.code, a.id] }
   end
   
   def departure_dates_formatted_collection
@@ -17,8 +17,6 @@ class FlightsController < ApplicationController
           .distinct
           .order(:departure_date)
           .map { |f| f.departure_date }
-        # .uniq #{ |dates_array| dates_array.first }
-          .unshift(" ")
   end
 
   def find_flights(departure_airport, arrival_airport, departure_date)

@@ -7,8 +7,7 @@ class BookingsController < ApplicationController
   def new
     @booking = Booking.new
     @flight = Flight.find(params[:choosen_flight])
-    @number_of_passengers = params[:number_of_passengers]
-    @number_of_passengers.to_i.times { @booking.passengers.build }
+    params[:number_of_passengers].to_i.times { @booking.passengers.build }
   end
 
   def create
@@ -18,10 +17,7 @@ class BookingsController < ApplicationController
       redirect_to @booking
     else
       flight = Flight.find(params[:booking][:flight_id])
-      passengers_attributes = params[:booking][:passengers_attributes].to_h
-      number_of_passengers = passengers_attributes.size
-      render :new, assigns: { flight: flight,
-                              number_of_passengers: number_of_passengers },
+      render :new, assigns: { flight: flight },
                    status: :unprocessable_entity
     end
   end
